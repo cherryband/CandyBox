@@ -1,0 +1,7 @@
+#Sun Oct 23 02:11:02 KST 2016
+base.0=C\:\\Users\\qtwye\\Desktop\\CandyBox\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_fec20cb90f3b8e675998ad54bb7838bbfc0296c0
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=C\:\\Users\\qtwye\\Desktop\\CandyBox\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_46434d31e0b0e395f8162e976645ddf068295426\\classes.dex
+base.1=C\:\\Users\\qtwye\\Desktop\\CandyBox\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_46434d31e0b0e395f8162e976645ddf068295426
+file.0=C\:\\Users\\qtwye\\Desktop\\CandyBox\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_fec20cb90f3b8e675998ad54bb7838bbfc0296c0\\classes.dex

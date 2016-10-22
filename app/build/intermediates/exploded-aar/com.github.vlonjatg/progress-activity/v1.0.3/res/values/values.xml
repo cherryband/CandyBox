@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ProgressActivity"><attr format="dimension" name="loadingProgressBarWidth"/><attr format="dimension" name="loadingProgressBarHeight"/><attr format="color" name="loadingBackgroundColor"/><attr format="dimension" name="emptyImageWidth"/><attr format="dimension" name="emptyImageHeight"/><attr format="dimension" name="emptyTitleTextSize"/><attr format="dimension" name="emptyContentTextSize"/><attr format="color" name="emptyTitleTextColor"/><attr format="color" name="emptyContentTextColor"/><attr format="color" name="emptyBackgroundColor"/><attr format="dimension" name="errorImageWidth"/><attr format="dimension" name="errorImageHeight"/><attr format="dimension" name="errorTitleTextSize"/><attr format="dimension" name="errorContentTextSize"/><attr format="color" name="errorTitleTextColor"/><attr format="color" name="errorContentTextColor"/><attr format="color" name="errorButtonTextColor"/><attr format="color" name="errorBackgroundColor"/></declare-styleable>
+    <!-- From: file:/build/library/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="progressActivityEmptyContentPlaceholder">We couldn\'t find anything. Tap the button to take your first image</string>
+    <string name="progressActivityEmptyTitlePlaceholder">Nothing Here</string>
+    <string name="progressActivityErrorButton">Try Again</string>
+    <string name="progressActivityErrorContentPlaceholder">We could not establish a connection with our servers. Please try again when you are connected to the internet.</string>
+    <string name="progressActivityErrorTitlePlaceholder">No Connection</string>
+</resources>

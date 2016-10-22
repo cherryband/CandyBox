@@ -1,0 +1,5 @@
+int attr hacky_preview 0x7f010000
+int[] styleable IconButton { 0x7f010000 }
+int styleable IconButton_hacky_preview 0
+int[] styleable IconTextView { 0x7f010000 }
+int styleable IconTextView_hacky_preview 0
