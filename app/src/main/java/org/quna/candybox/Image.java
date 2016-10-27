@@ -19,9 +19,9 @@ class Image implements Parcelable {
             return new Image(source);
         }
     };
-    private String source; //link of a image
-    private String alt; //Alt text for the visually impaired
-    private String link; //link to a page of the image
+    private String source; //Link of a image
+    private String alt; //Alt text
+    private String link; //Link to a page of the image
 
     public Image(String source, String alt, String link) {
         setSource(source);
