@@ -13,6 +13,7 @@ import org.jsoup.*;
 import org.jsoup.nodes.*;
 import org.jsoup.select.*;
 import org.quna.candybox.listener.*;
+import android.widget.SearchView.*;
 
 public class ImageLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private static final String BCB_URL = "https://www.bittersweetcandybowl.com";
@@ -144,6 +145,11 @@ public class ImageLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(mImageView);
 			}
+			mImageView.setOnClickListener(new OnClickListener(){
+				public void onClick(View v){
+					
+				}
+			});
 		} else if (holder instanceof ProgressViewHolder) {
 			ProgressViewHolder progressHolder = (ProgressViewHolder) holder;
 			ProgressBar progress = progressHolder.mProgress;
