@@ -1,12 +1,19 @@
 package org.quna.candybox;
 
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
-import android.app.Activity;
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.MotionEvent;
-import android.view.View;
+import android.annotation.*;
+import android.app.*;
+import android.content.*;
+import android.graphics.drawable.*;
+import android.os.*;
+import android.view.*;
+import android.widget.*;
+import com.bumptech.glide.*;
+import com.bumptech.glide.load.engine.*;
+import com.malinskiy.materialicons.*;
+import com.vlonjatg.progressactivity.*;
+import java.io.*;
+import org.jsoup.*;
+import org.jsoup.nodes.*;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -28,7 +35,7 @@ public class ImageViewActivity extends Activity {
             return false;
         }
     };
-    private View mContentView;
+    private ImageView mImageView;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -38,7 +45,7 @@ public class ImageViewActivity extends Activity {
             // Note that some of these constants are new as of API 16 (Jelly Bean)
             // and API 19 (KitKat). It is safe to use them, as they are inlined
             // at compile-time and do nothing on earlier devices.
-            mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+            mImageView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                     | View.SYSTEM_UI_FLAG_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
@@ -65,6 +72,8 @@ public class ImageViewActivity extends Activity {
             hide();
         }
     };
+	private ProgressActivity progressActivity;
+	private String link;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +83,12 @@ public class ImageViewActivity extends Activity {
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
-        mContentView = findViewById(R.id.full_image);
+        mImageView = (ImageView) findViewById(R.id.full_image);
+		progressActivity = (ProgressActivity) findViewById(R.id.image_progress);
 
 
         // Set up the user interaction to manually show or hide the system UI.
-        mContentView.setOnClickListener(new View.OnClickListener() {
+        mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toggle();
@@ -89,6 +99,10 @@ public class ImageViewActivity extends Activity {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         findViewById(R.id.comments_button).setOnTouchListener(mDelayHideTouchListener);
+		Intent intent = getIntent();
+		link = intent.getStringExtra(ImageLayoutAdapter.OPEN_IMAGE);
+		progressActivity.showLoading();
+		new DownloadAsyncTask().execute(link);
     }
 
     @Override
@@ -126,7 +140,7 @@ public class ImageViewActivity extends Activity {
     @SuppressLint("InlinedApi")
     private void show() {
         // Show the system bar
-        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        mImageView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         mVisible = true;
 
@@ -142,5 +156,71 @@ public class ImageViewActivity extends Activity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+	
+	private void onError() {
+		Drawable error = new IconDrawable(ImageViewActivity.this,
+			Iconify.IconValue.zmdi_wifi_off).colorRes(android.R.color.background_light);
+		progressActivity.showError(error, "Error while loading",
+			"Something went wrong while loading images.\n" +
+			"Check the internet connection and try again.", "Reload",
+			new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					progressActivity.showLoading();
+					new DownloadAsyncTask().execute(link);
+				}
+			});
+	}
+	private void onLoaded(String rawLink){
+		if (rawLink.contains(".gif")) {
+			Glide
+				.with(this)
+				.load(rawLink)
+				.asGif()
+				.crossFade()
+				.fitCenter()
+				.diskCacheStrategy(DiskCacheStrategy.ALL)
+				.into(mImageView);
+		} else {
+			Glide
+				.with(this)
+				.load(rawLink)
+				.crossFade()
+				.fitCenter()
+				.diskCacheStrategy(DiskCacheStrategy.ALL)
+				.into(mImageView);
+		}
+		progressActivity.showContent();
+	}
+	
+	public class DownloadAsyncTask extends AsyncTask<String, Void, String> {
+        private boolean isError;
+
+        @Override
+        protected String doInBackground(String... params) {
+			int loaded = 0;
+            try { //Get thumbnails.
+				Document doc = Jsoup.connect(params[0]).timeout(0).get();
+				Element page = doc.body();
+				Element image = page.getElementById("Imagemain");
+            	
+				return image.getElementsByTag("img").attr("src");
+			} catch (IOException e) {
+                e.printStackTrace();
+                isError = true;
+            }
+			return null;
+        }
+
+        @Override
+        protected void onPostExecute(String param) {
+            super.onPostExecute(param);
+            if (isError){
+				onError();
+				return;
+            }
+			onLoaded(param);
+        }
     }
 }

@@ -14,6 +14,9 @@ import org.quna.candybox.*;
 import org.quna.candybox.listener.*;
 
 public class MainActivity extends Activity {
+	private static final String IMAGE_LIST = "images";
+	private static final String PAGE_COUNT = "position";
+	
 	private RecyclerView mRecycler;
     private RecyclerView.LayoutManager mManager;
     private ImageLayoutAdapter mAdapter;
@@ -28,7 +31,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         progressActivity = (ProgressActivity) findViewById(R.id.main);
         mRecycler = (RecyclerView) findViewById(R.id.recycler_view);
-		mRecycler.setHasFixedSize(true);
 		mDataset = new ArrayList<Image>();
 		
 		swipeRefresher = (SwipeRefreshLayout) findViewById(R.id.refresher);
@@ -42,7 +44,8 @@ public class MainActivity extends Activity {
         mRecycler.setLayoutManager(mManager);
 
         try {
-			currentPos = savedInstanceState.getInt("position", 1);
+			currentPos = savedInstanceState.getInt(PAGE_COUNT, 1);
+			mDataset = savedInstanceState.getParcelableArrayList(IMAGE_LIST);
             mAdapter = new ImageLayoutAdapter(mDataset, currentPos, mRecycler);
 			setListeners();
         } catch (NullPointerException e) {
@@ -55,8 +58,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("images", mAdapter.getData());
-		outState.putInt("position", currentPos);
+        outState.putParcelableArrayList(IMAGE_LIST, mAdapter.getData());
+		outState.putInt(PAGE_COUNT, currentPos);
     }
 	
 	private void setListeners(){

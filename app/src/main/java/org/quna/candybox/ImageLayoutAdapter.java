@@ -1,9 +1,11 @@
 package org.quna.candybox;
 
+import android.content.*;
 import android.os.*;
 import android.support.v7.widget.*;
 import android.util.*;
 import android.view.*;
+import android.view.View.*;
 import android.widget.*;
 import com.bumptech.glide.*;
 import com.bumptech.glide.load.engine.*;
@@ -13,7 +15,6 @@ import org.jsoup.*;
 import org.jsoup.nodes.*;
 import org.jsoup.select.*;
 import org.quna.candybox.listener.*;
-import android.widget.SearchView.*;
 
 public class ImageLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private static final String BCB_URL = "https://www.bittersweetcandybowl.com";
@@ -25,6 +26,8 @@ public class ImageLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 			return;
 		}
 	};
+	
+	public static final String OPEN_IMAGE = "openImage";
 	
 	private int currentPos;
 	private String url;
@@ -69,8 +72,10 @@ public class ImageLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 		this(recycler);
 		this.currentPos = currentPos;
 		for (Image i:savedInstance){
-			mDataset.add(i);
-			this.notifyItemInserted(mDataset.size());
+			if (i != null){
+				mDataset.add(i);
+				this.notifyItemInserted(mDataset.size());
+			}
 		}
 	}
 	
@@ -122,14 +127,15 @@ public class ImageLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		if (holder instanceof ImageViewHolder) {
 			ImageViewHolder imageHolder = (ImageViewHolder) holder;
-        	Image image = mDataset.get(position);
+        	final Image image = mDataset.get(position);
 			ImageView mImageView = imageHolder.mImageView;
         	mImageView.setContentDescription(image.getAlt());
         	String imgLink = image.getSource();
+			final Context context = mImageView.getContext();
 
         	if (imgLink.contains(".gif")) {
             	Glide
-                    .with(mImageView.getContext())
+                    .with(context)
                     .load(imgLink)
                     .asGif()
                     .crossFade()
@@ -138,16 +144,19 @@ public class ImageLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     .into(mImageView);
 			} else {
           		Glide
-                    .with(mImageView.getContext())
+                    .with(context)
                     .load(imgLink)
                     .crossFade()
 					.fitCenter()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(mImageView);
 			}
+			
 			mImageView.setOnClickListener(new OnClickListener(){
 				public void onClick(View v){
-					
+					Intent intent = new Intent(context, ImageViewActivity.class);
+					intent.putExtra(OPEN_IMAGE, image.getLink());
+					context.startActivity(intent);
 				}
 			});
 		} else if (holder instanceof ProgressViewHolder) {
@@ -186,7 +195,7 @@ public class ImageLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             try { //Get thumbnails.
 				for (int index = params[0]; loaded < params[1] * 16; index ++){
 					String url = PAGE_URL + Integer.toString(index);
-                	Document doc = Jsoup.connect(url).get();
+                	Document doc = Jsoup.connect(url).timeout(0).get();
 					Element page = doc.body();
 					if (page.getElementById("No_Images_Foundmain") != null) {
 						isEmpty = true;
