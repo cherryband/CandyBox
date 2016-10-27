@@ -1,21 +1,32 @@
 package org.quna.candybox;
 
-import android.os.*;
-import android.support.v7.widget.*;
-import android.util.*;
-import android.view.*;
-import android.widget.*;
-import com.bumptech.glide.*;
-import com.bumptech.glide.load.engine.*;
-import java.io.*;
-import java.util.*;
-import org.jsoup.*;
-import org.jsoup.nodes.*;
-import org.jsoup.select.*;
-import org.quna.candybox.listener.*;
-import android.widget.SearchView.*;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class ImageLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+	public static final String OPEN_IMAGE = "openImage";
 	private static final String BCB_URL = "https://www.bittersweetcandybowl.com";
 	private static final String PAGE_URL = BCB_URL + "/candybooru/post/list/";
 	private static final int VIEW_ITEM = 0;
@@ -25,7 +36,6 @@ public class ImageLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 			return;
 		}
 	};
-	
 	private int currentPos;
 	private String url;
     private ArrayList<Image> mDataset;
@@ -69,8 +79,10 @@ public class ImageLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 		this(recycler);
 		this.currentPos = currentPos;
 		for (Image i:savedInstance){
-			mDataset.add(i);
-			this.notifyItemInserted(mDataset.size());
+			if (i != null){
+				mDataset.add(i);
+				this.notifyItemInserted(mDataset.size());
+			}
 		}
 	}
 	
@@ -122,14 +134,15 @@ public class ImageLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		if (holder instanceof ImageViewHolder) {
 			ImageViewHolder imageHolder = (ImageViewHolder) holder;
-        	Image image = mDataset.get(position);
+        	final Image image = mDataset.get(position);
 			ImageView mImageView = imageHolder.mImageView;
         	mImageView.setContentDescription(image.getAlt());
         	String imgLink = image.getSource();
+			final Context context = mImageView.getContext();
 
         	if (imgLink.contains(".gif")) {
             	Glide
-                    .with(mImageView.getContext())
+                    .with(context)
                     .load(imgLink)
                     .asGif()
                     .crossFade()
@@ -138,16 +151,19 @@ public class ImageLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     .into(mImageView);
 			} else {
           		Glide
-                    .with(mImageView.getContext())
+                    .with(context)
                     .load(imgLink)
                     .crossFade()
 					.fitCenter()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(mImageView);
 			}
+			
 			mImageView.setOnClickListener(new OnClickListener(){
 				public void onClick(View v){
-					
+					Intent intent = new Intent(context, ImageViewActivity.class);
+					intent.putExtra(OPEN_IMAGE, image.getLink());
+					context.startActivity(intent);
 				}
 			});
 		} else if (holder instanceof ProgressViewHolder) {
@@ -173,6 +189,35 @@ public class ImageLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 		if (showProgressBar) mDataset.add(null);
 		new DownloadAsyncTask().execute(1, 1);
 	}
+
+	private void loaded() {
+		loading = false;
+		while (mDataset.contains(null)) {
+			int lastIndex = mDataset.lastIndexOf(null);
+			mDataset.remove(lastIndex);
+			this.notifyItemRemoved(lastIndex);
+		}
+	}
+
+	public static class ImageViewHolder extends RecyclerView.ViewHolder {
+		public CardView mCardView;
+		public ImageView mImageView;
+
+		public ImageViewHolder(View v) {
+			super(v);
+			mCardView = (CardView) v.findViewById(R.id.card);
+			mImageView = (ImageView) v.findViewById(R.id.thumbnail);
+		}
+	}
+
+	public static class ProgressViewHolder extends RecyclerView.ViewHolder {
+		public ProgressBar mProgress;
+
+		public ProgressViewHolder(View v) {
+			super(v);
+			mProgress = (ProgressBar) v.findViewById(R.id.progress);
+		}
+	}
 	
 	//Custom page parser for Candybooru.
     public class DownloadAsyncTask extends AsyncTask<Integer, Void, Void> {
@@ -186,15 +231,15 @@ public class ImageLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             try { //Get thumbnails.
 				for (int index = params[0]; loaded < params[1] * 16; index ++){
 					String url = PAGE_URL + Integer.toString(index);
-                	Document doc = Jsoup.connect(url).get();
+                	Document doc = Jsoup.connect(url).timeout(0).get();
 					Element page = doc.body();
 					if (page.getElementById("No_Images_Foundmain") != null) {
 						isEmpty = true;
 						return null;
 					}
-					
-                	Elements thumbnails = page.getElementsByClass("thumbnailcontainer");
-                	//Parse Image link and alt text then store.
+
+					Elements thumbnails = page.getElementsByClass("thumbnailcontainer");
+					//Parse Image link and alt text then store.
                 	for (Element thumbnail : thumbnails) {
                 	    Element img = thumbnail.getElementsByTag("img").first();
                 	    String sourceLink = BCB_URL + img.attr("src");
@@ -236,33 +281,4 @@ public class ImageLayoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 			}
         }
     }
-	
-	private void loaded(){
-		loading = false;
-		while (mDataset.contains(null)){
-			int lastIndex = mDataset.lastIndexOf(null);
-			mDataset.remove(lastIndex);
-			this.notifyItemRemoved(lastIndex);
-		}
-	}
-
-    public static class ImageViewHolder extends RecyclerView.ViewHolder {
-		public CardView mCardView;
-        public ImageView mImageView;
-
-        public ImageViewHolder(View v) {
-			super(v);
-            mCardView = (CardView) v.findViewById(R.id.card);
-            mImageView = (ImageView) v.findViewById(R.id.thumbnail);
-        }
-    }
-	
-	public static class ProgressViewHolder extends RecyclerView.ViewHolder {
-		public ProgressBar mProgress;
-		
-		public ProgressViewHolder (View v){
-			super(v);
-			mProgress = (ProgressBar) v.findViewById(R.id.progress);
-		}
-	}
 }

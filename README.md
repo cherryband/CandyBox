@@ -5,7 +5,7 @@ This project is licensed under GNU GPL v3.0 and higher.
 #TODO
 The following Improvements aren't sorted in particular order and I cannot give you an ETA!
 * Implement search function.
-* Implement FullScreenActivity for images.
+* <s>Implement FullScreenActivity for images.</s> Done!
 * Implement login function.
 * Implement comment viewer.
 * Implement comment submit function.
