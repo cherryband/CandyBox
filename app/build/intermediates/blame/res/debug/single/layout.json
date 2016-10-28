@@ -64,6 +64,10 @@
         "source": "C:\\Users\\qtwye\\Desktop\\CandyBox\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\24.2.1\\res\\layout\\abc_alert_dialog_material.xml"
     },
     {
+        "merged": "C:\\Users\\qtwye\\Desktop\\CandyBox\\app\\build\\intermediates\\res\\merged\\debug\\layout\\progress_viewer.xml",
+        "source": "C:\\Users\\qtwye\\Desktop\\CandyBox\\app\\src\\main\\res\\layout\\progress_viewer.xml"
+    },
+    {
         "merged": "C:\\Users\\qtwye\\Desktop\\CandyBox\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_part_chronometer.xml",
         "source": "C:\\Users\\qtwye\\Desktop\\CandyBox\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\24.2.1\\res\\layout\\notification_template_part_chronometer.xml"
     },

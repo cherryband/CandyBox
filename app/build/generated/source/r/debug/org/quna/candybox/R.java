@@ -2133,7 +2133,7 @@ containing a value of this type.
         public static final int bottom=0x7f0a0023;
         public static final int buttonPanel=0x7f0a002f;
         public static final int cancel_action=0x7f0a005b;
-        public static final int card=0x7f0a0076;
+        public static final int card=0x7f0a0077;
         public static final int checkbox=0x7f0a003d;
         public static final int chronometer=0x7f0a0061;
         public static final int collapseActionView=0x7f0a001f;
@@ -2184,11 +2184,12 @@ containing a value of this type.
         public static final int none=0x7f0a000f;
         public static final int normal=0x7f0a000b;
         public static final int parentPanel=0x7f0a0031;
+        public static final int progress=0x7f0a0074;
         public static final int progress_circular=0x7f0a0006;
         public static final int progress_horizontal=0x7f0a0007;
         public static final int radio=0x7f0a003f;
-        public static final int recycler_view=0x7f0a0075;
-        public static final int refresher=0x7f0a0074;
+        public static final int recycler_view=0x7f0a0076;
+        public static final int refresher=0x7f0a0075;
         public static final int screen=0x7f0a0016;
         public static final int scrollIndicatorDown=0x7f0a0039;
         public static final int scrollIndicatorUp=0x7f0a0036;
@@ -2220,7 +2221,7 @@ containing a value of this type.
         public static final int text=0x7f0a0064;
         public static final int text2=0x7f0a0062;
         public static final int textSpacerNoButtons=0x7f0a0038;
-        public static final int thumbnail=0x7f0a0077;
+        public static final int thumbnail=0x7f0a0078;
         public static final int time=0x7f0a0060;
         public static final int title=0x7f0a002e;
         public static final int title_template=0x7f0a0033;
@@ -2277,12 +2278,13 @@ containing a value of this type.
         public static final int progress_empty_view=0x7f030024;
         public static final int progress_error_view=0x7f030025;
         public static final int progress_loading_view=0x7f030026;
-        public static final int recycler=0x7f030027;
-        public static final int select_dialog_item_material=0x7f030028;
-        public static final int select_dialog_multichoice_material=0x7f030029;
-        public static final int select_dialog_singlechoice_material=0x7f03002a;
-        public static final int support_simple_spinner_dropdown_item=0x7f03002b;
-        public static final int thumbnail_card=0x7f03002c;
+        public static final int progress_viewer=0x7f030027;
+        public static final int recycler=0x7f030028;
+        public static final int select_dialog_item_material=0x7f030029;
+        public static final int select_dialog_multichoice_material=0x7f03002a;
+        public static final int select_dialog_singlechoice_material=0x7f03002b;
+        public static final int support_simple_spinner_dropdown_item=0x7f03002c;
+        public static final int thumbnail_card=0x7f03002d;
     }
     public static final class string {
         public static final int abc_action_bar_home_description=0x7f050000;
