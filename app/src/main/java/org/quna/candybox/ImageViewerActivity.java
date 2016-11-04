@@ -32,7 +32,7 @@ import uk.co.senab.photoview.PhotoView;
 public class ImageViewerActivity extends AppCompatActivity {
     private static final String BOOK_FONT = "fira-sans/FiraSans-Book.otf";
     private ProgressActivity progressActivity;
-    private Image link;
+    private Image image;
     private PhotoView mImageView;
 
     @Override
@@ -44,36 +44,44 @@ public class ImageViewerActivity extends AppCompatActivity {
         progressActivity = (ProgressActivity) findViewById(R.id.image_progress);
 
         Intent intent = getIntent();
-        link = intent.getParcelableExtra(ImageLayoutAdapter.OPEN_IMAGE);
+        image = intent.getParcelableExtra(ImageLayoutAdapter.OPEN_IMAGE);
         progressActivity.showLoading();
 
-        SpannableString s = new SpannableString(link.getAlt());
-        s.setSpan(new TypefaceSpan(this, BOOK_FONT), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableString s = new SpannableString(image.getAlt());
+        s.setSpan(new TypefaceSpan(this, BOOK_FONT), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         // Update the action bar title with the TypefaceSpan instance
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(s);
 
-        new DownloadAsyncTask().execute(link.getLink());
+        new DownloadAsyncTask().execute(image.getLink());
     }
 
     private void onError() {
-        progressActivity.showContent();
         Snackbar snackbar = Snackbar
-                .make(mImageView, "Loading Failed.", Snackbar.LENGTH_LONG)
+                .make(findViewById(R.id.activity_image_view), "Loading Failed",
+                        Snackbar.LENGTH_INDEFINITE)
                 .setAction("Reload", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        new DownloadAsyncTask().execute(link.getLink());
+                        new DownloadAsyncTask().execute(image.getLink());
                         progressActivity.showLoading();
                     }
                 });
+
+        //Setting custom font to both text and action text in snackbar.
         View sbView = snackbar.getView();
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+
+        TextView textView = (TextView) sbView.findViewById
+                (android.support.design.R.id.snackbar_text);
         textView.setTypeface(TypefaceCache.get(this, BOOK_FONT));
-        TextView actionView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_action);
+
+        TextView actionView = (TextView) sbView.findViewById
+                (android.support.design.R.id.snackbar_action);
         actionView.setTypeface(TypefaceCache.get(this, BOOK_FONT));
+
         snackbar.show();
     }
 
@@ -82,16 +90,22 @@ public class ImageViewerActivity extends AppCompatActivity {
             Glide
                     .with(this)
                     .load(rawLink)
-                    .asGif()
+                    .asGif() //Loading GIF in animated form.
                     .listener(new RequestListener<String, GifDrawable>() {
                         @Override
-                        public boolean onException(Exception e, String model, Target<GifDrawable> target, boolean isFirstResource) {
+                        public boolean onException(Exception e, String model,
+                                                   Target<GifDrawable> target,
+                                                   boolean isFirstResource) {
+                            e.printStackTrace();
                             onError();
                             return false;
                         }
 
                         @Override
-                        public boolean onResourceReady(GifDrawable resource, String model, Target<GifDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        public boolean onResourceReady(GifDrawable resource, String model,
+                                                       Target<GifDrawable> target,
+                                                       boolean isFromMemoryCache,
+                                                       boolean isFirstResource) {
                             return false;
                         }
                     })
@@ -105,13 +119,19 @@ public class ImageViewerActivity extends AppCompatActivity {
                     .load(rawLink)
                     .listener(new RequestListener<String, GlideDrawable>() {
                         @Override
-                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        public boolean onException(Exception e, String model,
+                                                   Target<GlideDrawable> target,
+                                                   boolean isFirstResource) {
+                            e.printStackTrace();
                             onError();
                             return false;
                         }
 
                         @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        public boolean onResourceReady(GlideDrawable resource, String model,
+                                                       Target<GlideDrawable> target,
+                                                       boolean isFromMemoryCache,
+                                                       boolean isFirstResource) {
                             return false;
                         }
                     })
@@ -144,11 +164,9 @@ public class ImageViewerActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String param) {
             super.onPostExecute(param);
-            if (isError) {
+            if (isError)
                 onError();
-                return;
-            }
-            onLoaded(param);
+            else onLoaded(param);
         }
     }
 }
