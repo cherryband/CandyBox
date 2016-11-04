@@ -19,10 +19,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ImageViewActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_image_view"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:name=".ImageViewerActivity"
+            android:label="@string/title_activity_image_viewer"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.quna.candybox.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

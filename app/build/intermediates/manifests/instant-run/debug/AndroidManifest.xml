@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="19"
-        android:targetSdkVersion="24" />
+        android:targetSdkVersion="25" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -24,6 +24,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="org.quna.candybox.ImageViewerActivity"
+            android:label="@string/title_activity_image_viewer"
+            android:parentActivityName="org.quna.candybox.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.quna.candybox.MainActivity" />
         </activity>
     </application>
 

@@ -1,35 +1,48 @@
 package org.quna.candybox;
 
-import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.View;
+import android.widget.TextView;
 
-import com.malinskiy.materialicons.IconDrawable;
-import com.malinskiy.materialicons.Iconify;
 import com.vlonjatg.progressactivity.ProgressActivity;
+
+import org.quna.candybox.typeface.TypefaceCache;
+import org.quna.candybox.typeface.TypefaceSpan;
 
 import java.util.ArrayList;
 
-public class MainActivity extends Activity {
-	private static final String IMAGE_LIST = "images";
-	private static final String PAGE_COUNT = "position";
-	
-	private RecyclerView mRecycler;
+public class MainActivity extends AppCompatActivity {
+    private static final String BOOK_FONT = "fira-sans/FiraSans-Book.otf";
+
+    private RecyclerView mRecycler;
     private RecyclerView.LayoutManager mManager;
     private ImageLayoutAdapter mAdapter;
     private ArrayList<Image> mDataset;
     private ProgressActivity progressActivity;
 	private SwipeRefreshLayout swipeRefresher;
-	private int currentPos;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        SpannableString s = new SpannableString("Recents");
+        s.setSpan(new TypefaceSpan(this, BOOK_FONT), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        // Update the action bar title with the TypefaceSpan instance
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(s);
+
+        //init variables
         progressActivity = (ProgressActivity) findViewById(R.id.main);
         mRecycler = (RecyclerView) findViewById(R.id.recycler_view);
 		mDataset = new ArrayList<Image>();
@@ -38,17 +51,16 @@ public class MainActivity extends Activity {
 		swipeRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
 			@Override
 			public void onRefresh(){
-				mAdapter.requestRefresh(false);
-			}
+                refresh(false);
+            }
 		});
         mManager = new LinearLayoutManager(this);
         mRecycler.setLayoutManager(mManager);
 
         try {
-			currentPos = savedInstanceState.getInt(PAGE_COUNT, 1);
-			mDataset = savedInstanceState.getParcelableArrayList(IMAGE_LIST);
-            mAdapter = new ImageLayoutAdapter(mDataset, currentPos, mRecycler);
-			setListeners();
+            //recover data saved from onSavedInstanceState
+            mAdapter = new ImageLayoutAdapter(savedInstanceState, mRecycler);
+            setListeners();
         } catch (NullPointerException e) {
 			mAdapter = new ImageLayoutAdapter(mRecycler);
 			setListeners();
@@ -56,11 +68,15 @@ public class MainActivity extends Activity {
         }
     }
 
+    private void refresh(boolean showProgressBar) {
+        if (!mAdapter.requestRefresh(showProgressBar))
+            onLoadingFinished();
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(IMAGE_LIST, mAdapter.getData());
-		outState.putInt(PAGE_COUNT, currentPos);
+        mAdapter.onSaveInstanceState(outState);
     }
 	
 	private void setListeners(){
@@ -82,17 +98,24 @@ public class MainActivity extends Activity {
     }
 	
 	private void onError() {
-		Drawable error = new IconDrawable(MainActivity.this,
-			Iconify.IconValue.zmdi_wifi_off).colorRes(android.R.color.background_dark);
-		progressActivity.showError(error, "Error while loading",
-			"Something went wrong while loading images.\n" +
-			"Check the internet connection and try again.", "Reload",
-			new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					progressActivity.showContent();
-					mAdapter.requestRefresh(! swipeRefresher.isRefreshing());
-				}
-			});
-	}
+        Snackbar snackbar = Snackbar
+                .make(mRecycler, "Loading Failed.", Snackbar.LENGTH_LONG)
+                .setAction("Reload", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mAdapter.requestRefresh(true);
+                    }
+                });
+
+        //Setting custom font to both text and action text in snackbar.
+        View sbView = snackbar.getView();
+
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTypeface(TypefaceCache.get(this, BOOK_FONT));
+
+        TextView actionView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_action);
+        actionView.setTypeface(TypefaceCache.get(this, BOOK_FONT));
+
+        snackbar.show();
+    }
 }

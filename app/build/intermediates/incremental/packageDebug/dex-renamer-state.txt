@@ -1,7 +1,7 @@
-#Sun Oct 23 02:11:02 KST 2016
-base.0=C\:\\Users\\qtwye\\Desktop\\CandyBox\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_fec20cb90f3b8e675998ad54bb7838bbfc0296c0
+#Fri Nov 04 23:47:04 KST 2016
+base.0=C\:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_66b0bd73c865163d16ce4e5f0710f6ae11df7cc2
 renamed.1=classes.dex
 renamed.0=classes2.dex
-file.1=C\:\\Users\\qtwye\\Desktop\\CandyBox\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_46434d31e0b0e395f8162e976645ddf068295426\\classes.dex
-base.1=C\:\\Users\\qtwye\\Desktop\\CandyBox\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_46434d31e0b0e395f8162e976645ddf068295426
-file.0=C\:\\Users\\qtwye\\Desktop\\CandyBox\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_fec20cb90f3b8e675998ad54bb7838bbfc0296c0\\classes.dex
+file.1=C\:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_890412d86e1f14cbe04fd74c08cc718a97455131\\classes.dex
+base.1=C\:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_890412d86e1f14cbe04fd74c08cc718a97455131
+file.0=C\:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_66b0bd73c865163d16ce4e5f0710f6ae11df7cc2\\classes.dex
