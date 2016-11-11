@@ -1,8 +1,10 @@
-package org.quna.candybox;
+package org.quna.candybox.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +24,10 @@ import com.vlonjatg.progressactivity.ProgressActivity;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.quna.candybox.R;
+import org.quna.candybox.data.Image;
 import org.quna.candybox.typeface.TypefaceCache;
+import org.quna.candybox.typeface.TypefaceEnum;
 import org.quna.candybox.typeface.TypefaceSpan;
 
 import java.io.IOException;
@@ -30,7 +35,6 @@ import java.io.IOException;
 import uk.co.senab.photoview.PhotoView;
 
 public class ImageViewerActivity extends AppCompatActivity {
-    private static final String BOOK_FONT = "fira-sans/FiraSans-Book.otf";
     private ProgressActivity progressActivity;
     private Image image;
     private PhotoView mImageView;
@@ -42,21 +46,33 @@ public class ImageViewerActivity extends AppCompatActivity {
 
         mImageView = (PhotoView) findViewById(R.id.full_image);
         progressActivity = (ProgressActivity) findViewById(R.id.image_progress);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.comment_fab);
 
         Intent intent = getIntent();
-        image = intent.getParcelableExtra(ImageLayoutAdapter.OPEN_IMAGE);
-        progressActivity.showLoading();
-
-        SpannableString s = new SpannableString(image.getAlt());
-        s.setSpan(new TypefaceSpan(this, BOOK_FONT), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        image = intent.getParcelableExtra(Image.IMAGE);
 
         // Update the action bar title with the TypefaceSpan instance
+        SpannableString s = new SpannableString(image.getAlt());
+        s.setSpan(new TypefaceSpan(this, TypefaceEnum.BOOK.getPath()), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(s);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        progressActivity.showLoading();
 
         new DownloadAsyncTask().execute(image.getLink());
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Open CommentViewerActivity
+                Context context = view.getContext();
+                Intent intent = new Intent(context, CommentViewerActivity.class);
+                intent.putExtra(Image.IMAGE, image);
+                context.startActivity(intent);
+            }
+        });
     }
 
     private void onError() {
@@ -76,11 +92,11 @@ public class ImageViewerActivity extends AppCompatActivity {
 
         TextView textView = (TextView) sbView.findViewById
                 (android.support.design.R.id.snackbar_text);
-        textView.setTypeface(TypefaceCache.get(this, BOOK_FONT));
+        textView.setTypeface(TypefaceCache.get(this, TypefaceEnum.BOOK.getPath()));
 
         TextView actionView = (TextView) sbView.findViewById
                 (android.support.design.R.id.snackbar_action);
-        actionView.setTypeface(TypefaceCache.get(this, BOOK_FONT));
+        actionView.setTypeface(TypefaceCache.get(this, TypefaceEnum.BOOK.getPath()));
 
         snackbar.show();
     }

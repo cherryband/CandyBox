@@ -68,6 +68,10 @@
         "source": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\exploded-aar\\com.github.vlonjatg\\progress-activity\\v1.0.3\\res\\layout\\progress_empty_view.xml"
     },
     {
+        "merged": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_comment_viewer.xml",
+        "source": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\src\\main\\res\\layout\\activity_comment_viewer.xml"
+    },
+    {
         "merged": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\res\\merged\\debug\\layout\\progress_loading_view.xml",
         "source": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\exploded-aar\\com.github.vlonjatg\\progress-activity\\v1.0.3\\res\\layout\\progress_loading_view.xml"
     },
@@ -176,6 +180,10 @@
         "source": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\notification_action_tombstone.xml"
     },
     {
+        "merged": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\res\\merged\\debug\\layout\\content_image_viewer.xml",
+        "source": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\src\\main\\res\\layout\\content_image_viewer.xml"
+    },
+    {
         "merged": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\res\\merged\\debug\\layout\\select_dialog_multichoice_material.xml",
         "source": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\select_dialog_multichoice_material.xml"
     },
@@ -254,6 +262,14 @@
     {
         "merged": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_bottom_navigation_item.xml",
         "source": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.0\\res\\layout\\design_bottom_navigation_item.xml"
+    },
+    {
+        "merged": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\res\\merged\\debug\\layout\\content_comment_viewer.xml",
+        "source": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\src\\main\\res\\layout\\content_comment_viewer.xml"
+    },
+    {
+        "merged": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\res\\merged\\debug\\layout\\comment_card.xml",
+        "source": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\src\\main\\res\\layout\\comment_card.xml"
     },
     {
         "merged": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_icon_group.xml",

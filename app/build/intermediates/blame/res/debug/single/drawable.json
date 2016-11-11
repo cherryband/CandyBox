@@ -44,6 +44,10 @@
         "source": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\drawable\\abc_spinner_textfield_background_material.xml"
     },
     {
+        "merged": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\ic_create_black_24dp.xml",
+        "source": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\src\\main\\res\\drawable\\ic_create_black_24dp.xml"
+    },
+    {
         "merged": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_seekbar_thumb_material.xml",
         "source": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\drawable\\abc_seekbar_thumb_material.xml"
     },
@@ -138,6 +142,10 @@
     {
         "merged": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\notification_icon_background.xml",
         "source": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\drawable\\notification_icon_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\ic_comment_black_24dp.xml",
+        "source": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\src\\main\\res\\drawable\\ic_comment_black_24dp.xml"
     },
     {
         "merged": "C:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_seekbar_track_material.xml",

@@ -1,13 +1,16 @@
-package org.quna.candybox;
+package org.quna.candybox.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import org.quna.candybox.adapter.viewholder.ImageViewHolder;
 
 /**
  * Created by qtwye on 2016-10-22.
  */
 
-class Image implements Parcelable {
+public class Image extends Data implements Parcelable {
+    public static final String IMAGE = "image_class";
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         @Override
         public Object[] newArray(int size) {
@@ -24,12 +27,14 @@ class Image implements Parcelable {
     private String link; //Link to a page of the image
 
     public Image(String source, String alt, String link) {
+        setHolderClass(ImageViewHolder.class);
         setSource(source);
         setLink(link);
         setAlt(alt);
     }
 
     public Image(Parcel in) {
+        setHolderClass(ImageViewHolder.class);
         String[] data = new String[3];
         in.readStringArray(data);
         setSource(data[0]);

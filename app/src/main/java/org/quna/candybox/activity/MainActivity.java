@@ -1,4 +1,4 @@
-package org.quna.candybox;
+package org.quna.candybox.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -12,12 +12,16 @@ import android.text.SpannableString;
 import android.view.View;
 import android.widget.TextView;
 
+import org.quna.candybox.R;
+import org.quna.candybox.adapter.ImageLayoutAdapter;
+import org.quna.candybox.adapter.viewholder.ImageViewHolder;
+import org.quna.candybox.adapter.viewholder.ProgressViewHolder;
+import org.quna.candybox.misc.Listener;
 import org.quna.candybox.typeface.TypefaceCache;
+import org.quna.candybox.typeface.TypefaceEnum;
 import org.quna.candybox.typeface.TypefaceSpan;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String BOOK_FONT = "fira-sans/FiraSans-Book.otf";
-
     private RecyclerView mRecycler; //List of thumbnails
     private GridLayoutManager mManager; //RecyclerView LayoutManager instance
     private ImageLayoutAdapter mAdapter; //Custom RecyclerView Adapter
@@ -28,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getSpanSize(int position) {
             switch (mAdapter.getItemViewType(position)) {
-                case ImageLayoutAdapter.VIEW_ITEM:
+                case ImageViewHolder.VIEW_IMAGE:
                     return 1;
-                case ImageLayoutAdapter.VIEW_PROGRESS:
+                case ProgressViewHolder.VIEW_PROGRESS:
                     return spanCount; //number of columns of the grid
                 default:
                     return -1;
@@ -44,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main);
 
         SpannableString s = new SpannableString("Recents");
-        s.setSpan(new TypefaceSpan(this, BOOK_FONT), 0, s.length(),
+        s.setSpan(new TypefaceSpan(this, TypefaceEnum.BOOK.getPath()), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         // Update the action bar title with the TypefaceSpan instance
@@ -118,11 +122,11 @@ public class MainActivity extends AppCompatActivity {
 
         TextView textView = (TextView) sbView.findViewById
                 (android.support.design.R.id.snackbar_text);
-        textView.setTypeface(TypefaceCache.get(this, BOOK_FONT));
+        textView.setTypeface(TypefaceCache.get(this, TypefaceEnum.BOOK.getPath()));
 
         TextView actionView = (TextView) sbView.findViewById
                 (android.support.design.R.id.snackbar_action);
-        actionView.setTypeface(TypefaceCache.get(this, BOOK_FONT));
+        actionView.setTypeface(TypefaceCache.get(this, TypefaceEnum.BOOK.getPath()));
 
         snackbar.show();
     }

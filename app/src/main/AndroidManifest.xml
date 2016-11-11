@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,12 +19,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ImageViewerActivity"
+            android:name=".activity.ImageViewerActivity"
             android:label="@string/title_activity_image_viewer"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.quna.candybox.MainActivity" />
+                android:value="org.quna.candybox.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activity.CommentViewerActivity"
+            android:label="@string/title_activity_comment_viewer"
+            android:parentActivityName=".activity.ImageViewerActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.quna.candybox.activity.ImageViewerActivity" />
         </activity>
     </application>
 

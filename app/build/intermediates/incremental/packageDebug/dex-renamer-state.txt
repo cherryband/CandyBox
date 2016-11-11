@@ -1,4 +1,4 @@
-#Fri Nov 04 23:47:04 KST 2016
+#Sun Nov 06 23:48:49 KST 2016
 base.0=C\:\\Users\\graph\\AndroidStudioProjects\\Candy_Box\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_66b0bd73c865163d16ce4e5f0710f6ae11df7cc2
 renamed.1=classes.dex
 renamed.0=classes2.dex
