@@ -29,8 +29,7 @@
         <activity
             android:name=".activity.CommentViewerActivity"
             android:label="@string/title_activity_comment_viewer"
-            android:parentActivityName=".activity.ImageViewerActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".activity.ImageViewerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.quna.candybox.activity.ImageViewerActivity" />

@@ -5,7 +5,7 @@ package org.quna.candybox.typeface;
  */
 
 public enum TypefaceEnum {
-    BOOK("fira-sans/FiraSans-Book.otf");
+    BOOK("fira-sans/FiraSans-Book.otf"), REGULAR("fira-sans/FiraSans-Regular.otf");
 
     private String path;
 

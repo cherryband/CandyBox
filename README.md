@@ -7,7 +7,7 @@ The following Improvements aren't sorted in particular order and I cannot give y
 * Implement search function.
 * <s>Implement FullScreenActivity for images.</s> Done!
 * Implement login function.
-* Implement comment viewer.
+* <s>Implement comment viewer.</s> Done!
 * Implement comment submit function.
 * Display Artist and Tag information in image card.
 * Add Drawer.

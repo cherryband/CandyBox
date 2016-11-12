@@ -1,7 +1,6 @@
 package org.quna.candybox.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,14 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.View;
-import android.widget.TextView;
 
 import org.quna.candybox.R;
 import org.quna.candybox.adapter.ImageLayoutAdapter;
 import org.quna.candybox.adapter.viewholder.ImageViewHolder;
 import org.quna.candybox.adapter.viewholder.ProgressViewHolder;
+import org.quna.candybox.misc.CustomTypefaceSnackbar;
 import org.quna.candybox.misc.Listener;
-import org.quna.candybox.typeface.TypefaceCache;
 import org.quna.candybox.typeface.TypefaceEnum;
 import org.quna.candybox.typeface.TypefaceSpan;
 
@@ -45,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.activity_main);
 
         SpannableString s = new SpannableString("Recents");
-        s.setSpan(new TypefaceSpan(this, TypefaceEnum.BOOK.getPath()), 0, s.length(),
+        s.setSpan(new TypefaceSpan(this, TypefaceEnum.BOOK), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         // Update the action bar title with the TypefaceSpan instance
@@ -108,26 +106,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onError() { //Called when IOException is thrown, mostly occured by network problem.
-        Snackbar snackbar = Snackbar
-                .make(findViewById(R.id.main), "Loading Failed", Snackbar.LENGTH_INDEFINITE)
-                .setAction("Reload", new View.OnClickListener() {
+        String title = getResources().getString(R.string.err_load_failed);
+        String actionReload = getResources().getString(R.string.err_action_reload);
+
+        CustomTypefaceSnackbar.getSnackBar(this, R.id.main, title, actionReload,
+                new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         refresh(true);
                     }
-                });
-
-        //Setting custom font to both info and action text in snackbar.
-        View sbView = snackbar.getView();
-
-        TextView textView = (TextView) sbView.findViewById
-                (android.support.design.R.id.snackbar_text);
-        textView.setTypeface(TypefaceCache.get(this, TypefaceEnum.BOOK.getPath()));
-
-        TextView actionView = (TextView) sbView.findViewById
-                (android.support.design.R.id.snackbar_action);
-        actionView.setTypeface(TypefaceCache.get(this, TypefaceEnum.BOOK.getPath()));
-
-        snackbar.show();
+                }).show();
     }
 }

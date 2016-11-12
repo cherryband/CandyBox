@@ -37,6 +37,10 @@ public class CommentLayoutAdapter extends AbstractAdapter<Comment> {
 
     public boolean requestRefresh() {
         if (isLoading()) return false; //Data is already being processed so it's unnecessary call.
+        while (getItemCount() > 0) {
+            int lastIndex = getItemCount() - 1;
+            remove(lastIndex);
+        }
         add(null);
         new CommentParser().execute();
         return true;
@@ -65,7 +69,7 @@ public class CommentLayoutAdapter extends AbstractAdapter<Comment> {
     //Custom page parser for Candybooru.
     public class CommentParser extends DownloadAsyncTask<Void> {
         private static final String COMMENT_CONTAINER = "Commentsmain";
-        private static final String AUTHOR_DETAILS = "authordetails";
+        private static final String DETAILS = "authordetails";
         private static final String CONTENT = "text";
 
         @Override
@@ -74,14 +78,27 @@ public class CommentLayoutAdapter extends AbstractAdapter<Comment> {
             Document doc = Jsoup.connect(url).timeout(0).get();
             Element page = doc.body();
 
-            Elements commentContainer = page.getElementsByClass(COMMENT_CONTAINER);
+            Elements commentContainer = page.getElementById(COMMENT_CONTAINER).children();
             for (Element element : commentContainer) {
-                if (element.tagName() != "form") {
-                    Elements details = element.getElementsByClass(AUTHOR_DETAILS);
+                if (element.id().contains("comment")) {
+                    Element detail = element.getElementsByClass(DETAILS).first();
                     Element content = element.getElementsByClass(CONTENT).first();
+
+                    String rawContent = content.children().html();
+                    Element authorElement = detail.getElementsByTag("strong").first();
+                    Element dateTimeElement = detail.getElementsByTag("small").first();
+
+                    String author = authorElement.getElementsByTag("a").first().text();
+                    String dateTime = dateTimeElement.getElementsByTag("span").first().text();
+
+                    boolean isBciMember = element.className().contains("bci");
+                    boolean isCreator = element.className().contains("author");
+
+                    Comment comment = new Comment(author, rawContent, dateTime, isBciMember, isCreator);
+
+                    comments.add(comment);
                 }
             }
-
             return comments;
         }
     }

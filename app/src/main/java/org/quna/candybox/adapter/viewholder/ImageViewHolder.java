@@ -24,7 +24,7 @@ public class ImageViewHolder extends AbstractViewHolder<Image> {
 
     public ImageViewHolder(View v) {
         super(v);
-        mCardView = (CardView) v.findViewById(R.id.card);
+        mCardView = (CardView) v.findViewById(R.id.thumbnail_card);
         mImageView = (ImageView) v.findViewById(R.id.thumbnail);
     }
 
@@ -43,7 +43,7 @@ public class ImageViewHolder extends AbstractViewHolder<Image> {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(mImageView);
 
-        mImageView.setOnClickListener(new View.OnClickListener() {
+        mCardView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 //Open ImageViewerActivity
                 Context context = view.getContext();

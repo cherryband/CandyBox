@@ -9,5 +9,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_image_viewer">ImageViewerActivity</string>
     <string name="title_activity_comment_viewer">CommentViewer</string>
+    <string name="err_load_failed">Load Failed</string>
+    <string name="err_action_reload">Reload</string>
 
 </resources>

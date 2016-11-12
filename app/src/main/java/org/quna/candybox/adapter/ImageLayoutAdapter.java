@@ -44,6 +44,7 @@ public class ImageLayoutAdapter extends AbstractAdapter<Image> {
         }
     };
 
+
     public ImageLayoutAdapter(RecyclerView recycler) {
         super(recycler);
         url = PAGE_URL;
@@ -81,7 +82,6 @@ public class ImageLayoutAdapter extends AbstractAdapter<Image> {
         while (isRefresh && getItemCount() > 0) {
             int lastIndex = getItemCount() - 1;
             remove(lastIndex);
-            this.notifyItemRemoved(lastIndex);
         }
         if (showProgressBar) add(null);
         new CandybooruParser().execute(start, pageCount);

@@ -7,11 +7,11 @@ import android.view.View;
  * Created by graphene on 2016-11-11.
  */
 
-public abstract class AbstractViewHolder<T> extends RecyclerView.ViewHolder {
+public abstract class AbstractViewHolder<T extends Object> extends RecyclerView.ViewHolder {
 
     public AbstractViewHolder(View itemView) {
         super(itemView);
     }
 
-    public abstract void loadWith(T data);
+    public abstract void loadWith(T data); //Load views with provided data.
 }

@@ -25,21 +25,33 @@ public class Comment extends Data implements Parcelable {
     private String author;
     private String content;
     private String dateTime;
+    private boolean isBciUser;
+    private boolean isCreator;
 
-    public Comment(String author, String content, String dateTime) {
+    public Comment(String author, String content, String dateTime, boolean isBciMember, boolean isCreator) {
         setHolderClass(CommentViewHolder.class);
         setAuthor(author);
         setContent(content);
         setDateTime(dateTime);
+        setBciUser(isBciMember);
+        setCreator(isCreator);
     }
 
     public Comment(Parcel in) {
         setHolderClass(CommentViewHolder.class);
-        String[] data = new String[3];
-        in.readStringArray(data);
-        setAuthor(data[0]);
-        setContent(data[1]);
-        setDateTime(data[2]);
+
+        String[] stringData = new String[3];
+        in.readStringArray(stringData);
+
+        setAuthor(stringData[0]);
+        setContent(stringData[1]);
+        setDateTime(stringData[2]);
+
+        boolean[] boolData = new boolean[2];
+        in.readBooleanArray(boolData);
+
+        setBciUser(boolData[0]);
+        setCreator(boolData[1]);
     }
 
     public String getAuthor() {
@@ -66,6 +78,22 @@ public class Comment extends Data implements Parcelable {
         this.dateTime = dateTime;
     }
 
+    public boolean isBciUser() {
+        return isBciUser;
+    }
+
+    public void setBciUser(boolean bciUser) {
+        isBciUser = bciUser;
+    }
+
+    public boolean isCreator() {
+        return isCreator;
+    }
+
+    public void setCreator(boolean author) {
+        isCreator = author;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -77,6 +105,10 @@ public class Comment extends Data implements Parcelable {
                 this.getAuthor(),
                 this.getContent(),
                 this.getDateTime()
+        });
+        parcel.writeBooleanArray(new boolean[]{
+                this.isBciUser(),
+                this.isCreator()
         });
     }
 }

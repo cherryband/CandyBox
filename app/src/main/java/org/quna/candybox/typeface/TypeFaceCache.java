@@ -12,11 +12,15 @@ public class TypefaceCache {
     private static LruCache<String, Typeface> sTypefaceCache =
             new LruCache<String, Typeface>(12);
 
-    public static Typeface get(Context context, String path) {
+    private static Typeface get(Context context, String path) {
         Typeface mTypeface = sTypefaceCache.get(path);
         if (mTypeface == null)
             mTypeface = TypefaceCache.put(context, path);
         return mTypeface;
+    }
+
+    public static Typeface get(Context context, TypefaceEnum typefaceEnum) {
+        return TypefaceCache.get(context, typefaceEnum.getPath());
     }
 
     private static Typeface put(Context context, String path) {

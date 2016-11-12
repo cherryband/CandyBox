@@ -2,54 +2,57 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/card"
+        android:id="@+id/comment_card"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="4dp"
-        android:backgroundTint="#EFF3F7"
+        android:layout_margin="6dp"
         android:elevation="6dp"
         tools:targetApi="lollipop">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/comment_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginTop="4dp"
+                android:layout_below="@+id/divider"
+                android:layout_margin="4dp"
                 tools:text="Why are you seeing this?" />
 
-            <TextView
-                android:id="@+id/date_time_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/comment_text"
-                android:layout_alignParentEnd="true"
-                android:layout_toEndOf="@+id/author_text"
-                tools:text="It shouldn't be displayed in real life." />
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/author_text"
+                android:layout_margin="2dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/author_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/date_time_text"
-                android:layout_alignBottom="@+id/date_time_text"
                 android:layout_alignParentStart="true"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
+                android:layout_alignParentTop="true"
+                android:layout_margin="4dp"
+                android:layout_toStartOf="@+id/date_time_text"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 tools:text="This is for placeholding purposes only." />
+
+            <TextView
+                android:id="@+id/date_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/author_text"
+                android:layout_alignEnd="@+id/divider"
+                android:layout_margin="4dp"
+                tools:text="It shouldn't be displayed in real life." />
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

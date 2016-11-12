@@ -24,7 +24,6 @@ public abstract class AbstractAdapter<T extends Data> extends RecyclerView.Adapt
     };
 
     private static final String ITEM_LIST = "images";
-    private Listener onUpdateRequest = dummy;
     private Listener onUpdated = dummy;
     private Listener onError = dummy;
     private Listener onEmpty = dummy;
@@ -44,15 +43,11 @@ public abstract class AbstractAdapter<T extends Data> extends RecyclerView.Adapt
                 try {
                     getDataset().add((T) p);
                     this.notifyItemInserted(getDataset().size());
-                } catch (ClassCastException e) { //This shouldn't happen.
+                } catch (ClassCastException e) { //Because Class T extends Data which implements Parcelable, this shouldn't happen.
                     e.printStackTrace();
                 }
             }
         }
-    }
-
-    public void setOnUpdateRequestedListener(Listener l) {
-        onUpdateRequest = l;
     }
 
     public void setOnUpdatedListener(Listener l) {
@@ -82,7 +77,6 @@ public abstract class AbstractAdapter<T extends Data> extends RecyclerView.Adapt
         while (getDataset().contains(null)) {
             int lastIndex = getDataset().lastIndexOf(null);
             getDataset().remove(lastIndex);
-            this.notifyItemRemoved(lastIndex);
         }
     }
 
@@ -95,11 +89,15 @@ public abstract class AbstractAdapter<T extends Data> extends RecyclerView.Adapt
     }
 
     protected boolean add(T t) {
-        return mDataset.add(t);
+        boolean inserted = mDataset.add(t);
+        if (inserted) notifyItemInserted(getItemCount());
+        return inserted;
     }
 
     protected T remove(int pos) {
-        return mDataset.remove(pos);
+        T t = mDataset.remove(pos);
+        this.notifyItemRemoved(pos);
+        return t;
     }
 
     protected T get(int pos) {
@@ -145,12 +143,9 @@ public abstract class AbstractAdapter<T extends Data> extends RecyclerView.Adapt
             else if (datas.size() == 0) //No Result
                 onEmpty.invoke();
             else {
-                for (T data : datas) {
-                    if (add(data)) {
-                        //This method has to be called from UI thread.
-                        AbstractAdapter.this.notifyItemInserted(getItemCount());
-                    }
-                }
+                for (T data : datas)
+                    add(data);
+
                 onUpdated.invoke();
             }
         }

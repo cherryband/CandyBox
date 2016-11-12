@@ -5,13 +5,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.View;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -26,7 +24,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.quna.candybox.R;
 import org.quna.candybox.data.Image;
-import org.quna.candybox.typeface.TypefaceCache;
+import org.quna.candybox.misc.CustomTypefaceSnackbar;
 import org.quna.candybox.typeface.TypefaceEnum;
 import org.quna.candybox.typeface.TypefaceSpan;
 
@@ -53,7 +51,7 @@ public class ImageViewerActivity extends AppCompatActivity {
 
         // Update the action bar title with the TypefaceSpan instance
         SpannableString s = new SpannableString(image.getAlt());
-        s.setSpan(new TypefaceSpan(this, TypefaceEnum.BOOK.getPath()), 0, s.length(),
+        s.setSpan(new TypefaceSpan(this, TypefaceEnum.BOOK), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         ActionBar actionBar = getSupportActionBar();
@@ -76,29 +74,16 @@ public class ImageViewerActivity extends AppCompatActivity {
     }
 
     private void onError() {
-        Snackbar snackbar = Snackbar
-                .make(findViewById(R.id.activity_image_view), "Loading Failed",
-                        Snackbar.LENGTH_INDEFINITE)
-                .setAction("Reload", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        new DownloadAsyncTask().execute(image.getLink());
-                        progressActivity.showLoading();
-                    }
-                });
+        String title = getResources().getString(R.string.err_load_failed);
+        String actionReload = getResources().getString(R.string.err_action_reload);
 
-        //Setting custom font to both text and action text in snackbar.
-        View sbView = snackbar.getView();
-
-        TextView textView = (TextView) sbView.findViewById
-                (android.support.design.R.id.snackbar_text);
-        textView.setTypeface(TypefaceCache.get(this, TypefaceEnum.BOOK.getPath()));
-
-        TextView actionView = (TextView) sbView.findViewById
-                (android.support.design.R.id.snackbar_action);
-        actionView.setTypeface(TypefaceCache.get(this, TypefaceEnum.BOOK.getPath()));
-
-        snackbar.show();
+        CustomTypefaceSnackbar.getSnackBar(this, R.id.image_viewer_coordinator, title, actionReload, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DownloadAsyncTask().execute(image.getLink());
+                progressActivity.showLoading();
+            }
+        }).show();
     }
 
     private void onLoaded(String rawLink) {

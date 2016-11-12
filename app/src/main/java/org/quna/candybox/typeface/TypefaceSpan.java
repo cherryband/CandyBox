@@ -14,17 +14,13 @@ import android.text.style.MetricAffectingSpan;
  * @author Tristan Waddington
  */
 public class TypefaceSpan extends MetricAffectingSpan {
-    /**
-     * An <code>LruCache</code> for previously loaded typefaces.
-     */
-
     private Typeface mTypeface;
 
     /**
      * Load the {@link Typeface} and apply to a {@link Spannable}.
      */
-    public TypefaceSpan(Context context, String typefaceName) {
-        mTypeface = TypefaceCache.get(context, typefaceName);
+    public TypefaceSpan(Context context, TypefaceEnum typefaceEnum) {
+        mTypeface = TypefaceCache.get(context, typefaceEnum);
     }
 
     @Override
