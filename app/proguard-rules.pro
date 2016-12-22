@@ -21,3 +21,4 @@
   public *;
 }
 -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+-keep class com.yourpackage.yourapp.domainclasspackage.** { *; }

@@ -5,16 +5,18 @@ import android.os.Parcelable;
 
 import org.quna.candybox.adapter.viewholder.CommentViewHolder;
 
+import java.util.ArrayList;
+
 /**
  * Created by graphene on 2016-11-06.
  */
 
-public class Comment extends Data implements Parcelable {
+public class Comment implements Data {
     public static final String COMMENT = "comment_class";
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         @Override
         public Object[] newArray(int size) {
-            return new Image[size];
+            return new Comment[size];
         }
 
         @Override
@@ -22,24 +24,26 @@ public class Comment extends Data implements Parcelable {
             return new Comment(source);
         }
     };
+    private static final String BCI_MEMBER = "bci";
+    private static final String UPLOADER = "uploader";
+    private static final String ADMIN = "admin";
     private String author;
     private String content;
     private String dateTime;
-    private boolean isBciUser;
-    private boolean isCreator;
+    private ArrayList<String> userAttributes;
 
-    public Comment(String author, String content, String dateTime, boolean isBciMember, boolean isCreator) {
-        setHolderClass(CommentViewHolder.class);
+    public Comment(String author, String content, String dateTime,
+                   boolean isBciMember, boolean isCreator, boolean isAdmin) {
+        userAttributes = new ArrayList<String>();
         setAuthor(author);
         setContent(content);
         setDateTime(dateTime);
         setBciUser(isBciMember);
-        setCreator(isCreator);
+        setUploader(isCreator);
+        setAdmin(isAdmin);
     }
 
     public Comment(Parcel in) {
-        setHolderClass(CommentViewHolder.class);
-
         String[] stringData = new String[3];
         in.readStringArray(stringData);
 
@@ -47,11 +51,7 @@ public class Comment extends Data implements Parcelable {
         setContent(stringData[1]);
         setDateTime(stringData[2]);
 
-        boolean[] boolData = new boolean[2];
-        in.readBooleanArray(boolData);
-
-        setBciUser(boolData[0]);
-        setCreator(boolData[1]);
+        userAttributes = (ArrayList<String>) in.readSerializable();
     }
 
     public String getAuthor() {
@@ -79,19 +79,34 @@ public class Comment extends Data implements Parcelable {
     }
 
     public boolean isBciUser() {
-        return isBciUser;
+        return userAttributes.contains(BCI_MEMBER);
     }
 
-    public void setBciUser(boolean bciUser) {
-        isBciUser = bciUser;
+    public void setBciUser(boolean bciMember) {
+        setAttributes(bciMember, BCI_MEMBER);
     }
 
-    public boolean isCreator() {
-        return isCreator;
+    public boolean isUploader() {
+        return userAttributes.contains(UPLOADER);
     }
 
-    public void setCreator(boolean author) {
-        isCreator = author;
+    public void setUploader(boolean uploader) {
+        setAttributes(uploader, UPLOADER);
+    }
+
+    public boolean isAdmin() {
+        return userAttributes.contains(ADMIN);
+    }
+
+    public void setAdmin(boolean admin) {
+        setAttributes(admin, ADMIN);
+    }
+
+    private void setAttributes(boolean bool, String param) {
+        if (bool)
+            userAttributes.add(param);
+        else
+            userAttributes.remove(param);
     }
 
     @Override
@@ -106,9 +121,11 @@ public class Comment extends Data implements Parcelable {
                 this.getContent(),
                 this.getDateTime()
         });
-        parcel.writeBooleanArray(new boolean[]{
-                this.isBciUser(),
-                this.isCreator()
-        });
+        parcel.writeSerializable(userAttributes);
+    }
+
+    @Override
+    public int getHolderId() {
+        return CommentViewHolder.ID;
     }
 }
