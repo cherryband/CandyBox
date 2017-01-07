@@ -1,14 +1,15 @@
 # CandyBox
 Unofficial Candybooru website container for android.
 #License
-This project is licensed under GNU GPL v3.0 and higher.
-#TODO
+This project is licensed as a public domain. This software is no longer maintained.
+<s>#TODO
 The following Improvements aren't sorted in particular order and I cannot give you an ETA!
 * Implement search function.
-* <s>Implement FullScreenActivity for images.</s> Done!
+* Implement FullScreenActivity for images. Done!
 * Implement login function.
-* <s>Implement comment viewer.</s> Done!
+* Implement comment viewer. Done!
 * Implement comment submit function.
 * Display Artist and Tag information in image card.
 * Add Drawer.
 * Add theme support.
+</s>
