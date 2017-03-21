@@ -1,8 +1,9 @@
 # CandyBox
 Unofficial Candybooru website container for android.
-#License
-This project is licensed as a public domain. This software is no longer maintained.
-#TODO
+This software is no longer maintained for personal reasons.
+# License
+This project is licensed as a public domain.
+# TODO
 <s>
 The following Improvements aren't sorted in particular order and I cannot give you an ETA!
 * Implement search function.
