@@ -75,7 +75,7 @@ public class CandybooruImagePageParser {
         Elements tags = page.getElementById("Tagged_Withleft").children();
         ArrayList<String> tagList = new ArrayList<String>();
         for (Element tag : tags) {
-            if (tag.tagName() == "a") {
+            if (tag.tagName().equals("a")) {
                 tagList.add(tag.data());
             }
         }
@@ -94,9 +94,8 @@ public class CandybooruImagePageParser {
             ArrayList<String> favouritedUserList = new ArrayList<String>();
             Elements favouritedUsers = favourited.children();
             for (Element user : favouritedUsers) {
-                if (user.tagName() == "a") {
+                if (user.tagName().equals("a"))
                     favouritedUserList.add(user.data());
-                }
             }
             image.setFavourited(favouritedUserList);
         }

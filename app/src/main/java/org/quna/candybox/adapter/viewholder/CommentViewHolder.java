@@ -12,6 +12,7 @@ import android.support.v4.util.LruCache;
 import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,7 @@ import android.widget.TextView;
 
 import org.quna.candybox.R;
 import org.quna.candybox.data.Comment;
-import org.quna.candybox.typeface.TypefaceCache;
+import org.quna.candybox.typeface.TypeFaceCache;
 import org.quna.candybox.typeface.TypefaceEnum;
 
 import java.io.FileNotFoundException;
@@ -38,10 +39,10 @@ public class CommentViewHolder extends BaseViewHolder<Comment> implements Html.I
     public static final int ID = 2;
     private static LruCache<String, Bitmap> stringBitmapLruCache =
             new LruCache<String, Bitmap>(4 * 1024 * 1024);
-    public CardView mCardView;
-    public TextView mAuthorText, mContentText, mDateTimeText;
+    private CardView mCardView;
+    private TextView mAuthorText, mContentText, mDateTimeText;
 
-    public CommentViewHolder(View v) {
+    private CommentViewHolder(View v) {
         super(v);
         mCardView = (CardView) v.findViewById(R.id.comment_card);
 
@@ -49,8 +50,8 @@ public class CommentViewHolder extends BaseViewHolder<Comment> implements Html.I
         mContentText = (TextView) v.findViewById(R.id.comment_text);
         mDateTimeText = (TextView) v.findViewById(R.id.uploaded_date_time_text);
 
-        Typeface regular = TypefaceCache.get(v.getContext(), TypefaceEnum.REGULAR);
-        Typeface book = TypefaceCache.get(v.getContext(), TypefaceEnum.BOOK);
+        Typeface regular = TypeFaceCache.get(v.getContext(), TypefaceEnum.REGULAR);
+        Typeface book = TypeFaceCache.get(v.getContext(), TypefaceEnum.BOOK);
 
         mAuthorText.setTypeface(regular);
         mContentText.setTypeface(book);
@@ -100,7 +101,7 @@ public class CommentViewHolder extends BaseViewHolder<Comment> implements Html.I
     }
 
     //Load image included in the comments (e.g. emoji.)
-    class ImageLoader extends AsyncTask<Object, Void, Bitmap> {
+    private class ImageLoader extends AsyncTask<Object, Void, Bitmap> {
         private LevelListDrawable mDrawable;
 
         @Override
@@ -132,8 +133,14 @@ public class CommentViewHolder extends BaseViewHolder<Comment> implements Html.I
             Log.d(TAG, "onPostExecute bitmap " + bitmap);
             if (bitmap != null) {
                 BitmapDrawable d = new BitmapDrawable(mContentText.getResources(), bitmap);
+                DisplayMetrics metrics = mContentText.getResources().getDisplayMetrics();
+                float dpi = metrics.density; //DPI ratio based on the standard DPI of 160.
+
                 mDrawable.addLevel(1, 1, d);
-                mDrawable.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+                //Set image size based on the DPI ratio.
+                mDrawable.setBounds(0, 0, (int) (bitmap.getWidth() * dpi),
+                        (int) (bitmap.getHeight() * dpi));
                 mDrawable.setLevel(1);
 
                 // i don't know yet a better way to refresh TextView

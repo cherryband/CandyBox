@@ -20,7 +20,7 @@ public class TypefaceSpan extends MetricAffectingSpan {
      * Load the {@link Typeface} and apply to a {@link Spannable}.
      */
     public TypefaceSpan(Context context, TypefaceEnum typefaceEnum) {
-        mTypeface = TypefaceCache.get(context, typefaceEnum);
+        mTypeface = TypeFaceCache.get(context, typefaceEnum);
     }
 
     @Override

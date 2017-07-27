@@ -8,19 +8,19 @@ import android.util.LruCache;
  * Created by graphene on 2016-10-31.
  */
 
-public class TypefaceCache {
+public class TypeFaceCache {
     private static LruCache<String, Typeface> sTypefaceCache =
             new LruCache<String, Typeface>(12);
 
     private static Typeface get(Context context, String path) {
         Typeface mTypeface = sTypefaceCache.get(path);
         if (mTypeface == null)
-            mTypeface = TypefaceCache.put(context, path);
+            mTypeface = TypeFaceCache.put(context, path);
         return mTypeface;
     }
 
     public static Typeface get(Context context, TypefaceEnum typefaceEnum) {
-        return TypefaceCache.get(context, typefaceEnum.getPath());
+        return TypeFaceCache.get(context, typefaceEnum.getPath());
     }
 
     private static Typeface put(Context context, String path) {

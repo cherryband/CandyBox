@@ -18,7 +18,7 @@ import org.quna.candybox.adapter.CommentLayoutAdapter;
 import org.quna.candybox.data.Thumbnail;
 import org.quna.candybox.listener.CallbackListener;
 import org.quna.candybox.typeface.CustomTypefaceSnackbar;
-import org.quna.candybox.typeface.TypefaceCache;
+import org.quna.candybox.typeface.TypeFaceCache;
 import org.quna.candybox.typeface.TypefaceEnum;
 import org.quna.candybox.typeface.TypefaceSpan;
 
@@ -104,7 +104,7 @@ public class CommentViewerActivity extends AppCompatActivity {
                         mAdapter.requestRefresh();
                     }
                 });
-        Typeface book = TypefaceCache.get(this, TypefaceEnum.BOOK);
+        Typeface book = TypeFaceCache.get(this, TypefaceEnum.BOOK);
         CustomTypefaceSnackbar.runSnackBarWithTypeface(snackbar, book);
     }
 }

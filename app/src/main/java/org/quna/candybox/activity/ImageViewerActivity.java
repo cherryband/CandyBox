@@ -25,7 +25,7 @@ import org.quna.candybox.R;
 import org.quna.candybox.data.Image;
 import org.quna.candybox.data.Thumbnail;
 import org.quna.candybox.typeface.CustomTypefaceSnackbar;
-import org.quna.candybox.typeface.TypefaceCache;
+import org.quna.candybox.typeface.TypeFaceCache;
 import org.quna.candybox.typeface.TypefaceEnum;
 import org.quna.candybox.typeface.TypefaceSpan;
 import org.quna.candybox.util.CandybooruImagePageParser;
@@ -86,7 +86,7 @@ public class ImageViewerActivity extends AppCompatActivity {
                 Snackbar snackbar = Snackbar
                         .make(coordinatorLayout, "Download Started.", Snackbar.LENGTH_SHORT);
 
-                Typeface book = TypefaceCache.get(this, TypefaceEnum.BOOK);
+                Typeface book = TypeFaceCache.get(this, TypefaceEnum.BOOK);
                 CustomTypefaceSnackbar.runSnackBarWithTypeface(snackbar, book);
                 return true;
 
@@ -104,11 +104,11 @@ public class ImageViewerActivity extends AppCompatActivity {
                         loadImage(thumbnail.getPageLink());
                     }
                 });
-        Typeface book = TypefaceCache.get(this, TypefaceEnum.BOOK);
+        Typeface book = TypeFaceCache.get(this, TypefaceEnum.BOOK);
         CustomTypefaceSnackbar.runSnackBarWithTypeface(snackbar, book);
     }
 
-    public class ImageDownloadASyncTask extends AsyncTask<String, Void, Image> {
+    private class ImageDownloadASyncTask extends AsyncTask<String, Void, Image> {
 
         @Override
         protected Image doInBackground(String... strings) {
