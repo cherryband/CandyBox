@@ -1,6 +1,5 @@
 # CandyBox
-Unofficial Candybooru website container for android.
-This software is no longer maintained for personal reasons.
+Unofficial Android Wrapper for Candybooru, a Fan-art Site for BCB Comic.
 # License
 This project is licensed under GNU GPL 3.0 or higher.
 # TODO
